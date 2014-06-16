@@ -23,6 +23,8 @@ The `twilio` plugin provides a DSL to specify SMS recipient information as well 
 Here's an example:
 
 ``` ruby
+require 'pushpop-twilio'
+
 job 'send a text' do
 
   twilio do
@@ -44,6 +46,8 @@ The `twilio` plugin requires that the following environment variables are set:
 If you need a lower level interface to Twilio functionality, use the `send_message` method exposed by the plugin directly. Here's an example:
 
 ``` ruby
+require 'pushpop-twilio'
+
 job 'send a few texts' do
 
   twilio do
