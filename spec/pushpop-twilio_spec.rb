@@ -23,6 +23,20 @@ describe Pushpop::Twilio do
 
   describe '#run' do
 
+    it 'should return a the value of the block' do
+      step = Pushpop::Twilio.new do |response|
+        to '+18555555555'
+        from '+18555555556'
+        body "The response is #{response}"
+
+        'test'
+      end
+
+      step.configure
+      allow(step).to receive(:send_message).with('+18555555555', '+18555555556', 'The response is 365')
+      expect(step.run(365)).to eq('test')
+    end
+
     it 'should send a message' do
 
       step = Pushpop::Twilio.new do |response|

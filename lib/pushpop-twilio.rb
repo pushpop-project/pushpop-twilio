@@ -19,14 +19,19 @@ module Pushpop
 
     def run(last_response=nil, step_responses=nil)
 
-      self.configure(last_response, step_responses)
+      ret = self.configure(last_response, step_responses)
 
       _to = self._to
       _from = self._from || TWILIO_FROM
       _body = self._body
 
       if _to && _from && _body
-        send_message(_to, _from, _body)
+        resp = send_message(_to, _from, _body)
+        if ret.nil?
+          resp
+        else
+          ret
+        end
       else
         raise 'Please configure to, from, and body to send an SMS'
       end
@@ -42,14 +47,17 @@ module Pushpop
 
     def from(from)
       self._from = from
+      nil
     end
 
     def to(to)
       self._to = to
+      nil
     end
 
     def body(body)
       self._body = body
+      nil
     end
 
     def configure(last_response=nil, step_responses=nil)
