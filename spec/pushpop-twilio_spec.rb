@@ -14,15 +14,28 @@ describe Pushpop::Twilio do
 
       step.configure
 
-      step._to.should == '+18555555555'
-      step._from.should == '+18555555556'
-      step._body.should == 'use code 3:16 for high leniency'
-
+      expect(step._to).to eq('+18555555555')
+      expect(step._from).to eq('+18555555556')
+      expect(step._body).to eq('use code 3:16 for high leniency')
     end
 
   end
 
   describe '#run' do
+
+    it 'should return a the value of the block' do
+      step = Pushpop::Twilio.new do |response|
+        to '+18555555555'
+        from '+18555555556'
+        body "The response is #{response}"
+
+        'test'
+      end
+
+      step.configure
+      allow(step).to receive(:send_message).with('+18555555555', '+18555555556', 'The response is 365')
+      expect(step.run(365)).to eq('test')
+    end
 
     it 'should send a message' do
 
@@ -32,8 +45,8 @@ describe Pushpop::Twilio do
         body "The response is #{response}"
       end
       step.configure
-      step.stub(:send_message).with('+18555555555', '+18555555556', 'The response is 365').and_return(5)
-      step.run(365).should == 5
+      allow(step).to receive(:send_message).with('+18555555555', '+18555555556', 'The response is 365').and_return(5)
+      expect(step.run(365)).to eq(5)
 
     end
 
@@ -43,7 +56,7 @@ describe Pushpop::Twilio do
         from '+18555555556'
       end
       step.configure
-      step.stub(:send_message).and_return(5)
+      allow(step).to receive(:send_message).and_return(5)
       expect {
         step.run(365)
       }.to raise_error /Please configure/
@@ -55,7 +68,7 @@ describe Pushpop::Twilio do
         body "The response is #{response}"
       end
       step.configure
-      step.stub(:send_message).and_return(5)
+      allow(step).to receive(:send_message).and_return(5)
       expect {
         step.run(365)
       }.to raise_error /Please configure/
@@ -68,7 +81,7 @@ describe Pushpop::Twilio do
         body "The response is #{response}"
       end
       step.configure
-      step.stub(:send_message).and_return(5)
+      allow(step).to receive(:send_message).and_return(5)
       expect {
         step.run(365)
       }.to raise_error /Please configure/
