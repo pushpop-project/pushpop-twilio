@@ -27,8 +27,6 @@ module Pushpop
 
       if _to && _from && _body
         send_message(_to, _from, _body)
-      else
-        raise 'Please configure to, from, and body to send an SMS'
       end
     end
 
