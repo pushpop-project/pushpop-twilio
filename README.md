@@ -52,7 +52,7 @@ job 'send a few texts' do
 
   twilio do
     ['+18005555555','+18005555556'].each do |to_number|
-      send_message(to_number, 'Quick, move your car!')
+      send_message(to_number, ENV['TWILIO_FROM'], 'Quick, move your car!')
     end
   end
 
