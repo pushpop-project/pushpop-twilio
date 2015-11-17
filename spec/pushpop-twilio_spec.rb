@@ -43,10 +43,8 @@ describe Pushpop::Twilio do
         from '+18555555556'
       end
       step.configure
-      step.stub(:send_message).and_return(5)
-      expect {
-        step.run(365)
-      }.to raise_error /Please configure/
+      expect(step).not_to receive(:send_message)
+      step.run(365)
     end
 
     it 'should not send a message if to not specified' do
@@ -55,11 +53,8 @@ describe Pushpop::Twilio do
         body "The response is #{response}"
       end
       step.configure
-      step.stub(:send_message).and_return(5)
-      expect {
-        step.run(365)
-      }.to raise_error /Please configure/
-
+      expect(step).not_to receive(:send_message)
+      step.run(365)
     end
 
     it 'should not send a message if from not specified' do
@@ -68,10 +63,8 @@ describe Pushpop::Twilio do
         body "The response is #{response}"
       end
       step.configure
-      step.stub(:send_message).and_return(5)
-      expect {
-        step.run(365)
-      }.to raise_error /Please configure/
+      expect(step).not_to receive(:send_message)
+      step.run(365)
     end
 
   end
